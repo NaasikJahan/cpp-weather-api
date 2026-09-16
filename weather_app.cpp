@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <curl/curl.h>
+#include <cstdlib>
 #include </workspaces/codespaces-blank/json.hpp>
 
 // For convenience
@@ -71,7 +72,14 @@ void displayWeatherData(const std::string& data) {
 }
 
 int main() {
-    std::string apiKey = "3b5baf80b5692438775ddae8fd9af667";  // Replace with your active API key
+    const char* apiKeyEnv = std::getenv("OPENWEATHER_API_KEY");
+
+    if (apiKeyEnv == nullptr) {
+        std::cerr << "Error: OPENWEATHER_API_KEY environment variable is not set.\n";
+        return 1;
+    }
+
+    std::string apiKey(apiKeyEnv);
     std::string city;
 
     std::cout << "Enter city name: ";
